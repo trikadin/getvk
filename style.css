@@ -28,7 +28,7 @@
     height: 13px;
     visibility: hidden;
     padding: 0 !important;
-    background: transparent url(chrome-extension://__MSG_@@extension_id__/images/save_icon1.png) no-repeat;
+    background: url(chrome-extension://__MSG_@@extension_id__/images/save_icon1.png) no-repeat !important;
 }
 
 #audio.new .over .audio_save {
@@ -39,5 +39,5 @@
 }
 
 #audio.new .current .audio_save {
-    background-position: -13px 0;
+    background-position: -13px 0 !important;
 }
