@@ -1,0 +1,43 @@
+.audio .actions {
+    padding-left: 4px !important;
+    width: 60px !important;
+}
+
+.audio_save_wrap {
+    display: none;
+}
+
+#audio.new .audio_save_wrap {
+    display: block;
+    width: 13px;
+    height: 13px;
+    border-width: 0 !important;
+    color: #fff !important
+}
+
+#audio.new .audio_edit_wrap, #audio.new .audio_add_wrap, #audio.new .audio_remove_wrap, #audio.new .audio_save_wrap {
+    margin: 6px 3px 6px 0 !important;
+    padding: 4px 2px !important;
+    opacity: 0.4
+}
+
+.audio_save {
+    display: block !important;
+    width: 13px !important;
+    overflow: hidden;
+    height: 13px;
+    visibility: hidden;
+    padding: 0 !important;
+    background: transparent url(chrome-extension://__MSG_@@extension_id__/images/save_icon1.png) no-repeat;
+}
+
+#audio.new .over .audio_save {
+    visibility: visible;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#audio.new .current .audio_save {
+    background-position: -13px 0;
+}
