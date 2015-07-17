@@ -1,5 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
-### no-idea template
 .idea/
 *~
-old/
+node_modules/
+trash/
+static/lib/
+npm-debug.log

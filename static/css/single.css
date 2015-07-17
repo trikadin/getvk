@@ -28,7 +28,7 @@
     height: 13px;
     visibility: hidden;
     padding: 0 !important;
-    background: url(chrome-extension://__MSG_@@extension_id__/images/save_icon1.png) no-repeat !important;
+    background: url(chrome-extension://__MSG_@@extension_id__/static/img/save.png) no-repeat !important;
 }
 
 #audio.new .over .audio_save {

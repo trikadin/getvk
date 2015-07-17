@@ -1,0 +1,28 @@
+{
+  "name": "getvk",
+  "version": "0.1.0",
+  "description": "Расширение для браузера Google Chrome, чтобы скачивать музыку с сайта vk.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trikadin/getvk.git"
+  },
+  "keywords": [
+    "vk",
+    "download",
+    "music"
+  ],
+  "author": "trikadin@mail.ru",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trikadin/getvk/issues"
+  },
+  "homepage": "https://github.com/trikadin/getvk#readme",
+  "devDependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-watch": "^4.3.3",
+    "jscs": "^1.13.1"
+  }
+}
