@@ -36,7 +36,10 @@ executeInBody(function (extensionId) {
     }
 
     var url = audio.querySelector('.play_btn input').value,
-        title = audio.querySelector('.title_wrap').textContent.trim(),
+        titleEl = audio.querySelector('.title_wrap'),
+        artist = titleEl.querySelector('a').textContent.trim(),
+        title = titleEl.querySelector('.title').textContent.trim(),
+        fullTitle = artist + ' - ' + title,
         wrapper = document.createElement('div');
 
     wrapper.className = 'audio_save_wrap fl_r';
@@ -44,7 +47,7 @@ executeInBody(function (extensionId) {
     wrapper.addEventListener('mouseout', hideTip, false);
 
     var saver = document.createElement('a');
-    saver.setAttribute('download', title + '.mp3');
+    saver.setAttribute('download', fullTitle + '.mp3');
     saver.className = 'audio_save';
     saver.href = url;
     saver.addEventListener('click', save, false);
