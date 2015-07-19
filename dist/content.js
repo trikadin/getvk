@@ -5,12 +5,14 @@ document.body.addEventListener(chrome.runtime.id, function (e) {
 }, false);
 
 function executeInBody(func) {
-  var src = document.createElement('script');
-  src.text = '(' + func.toString() + ')(\'' + chrome.runtime.id + '\')';
+  const src = document.createElement('script');
+  src.text = `(${ func.toString() })('${ chrome.runtime.id }')`;
   document.querySelector('body').appendChild(src);
 }
 
 executeInBody(function (extensionId) {
+  'use strict';
+
   function showTip() {
     Audio.rowActive(this, 'Сохранить аудиозапись', [9, 5, 0]);
   }
@@ -20,7 +22,7 @@ executeInBody(function (extensionId) {
   }
 
   function sendMessage(message) {
-    var event = new CustomEvent(extensionId, { detail: message });
+    const event = new CustomEvent(extensionId, { detail: message });
     document.body.dispatchEvent(event);
   }
 
@@ -35,19 +37,19 @@ executeInBody(function (extensionId) {
       return;
     }
 
-    var url = audio.querySelector('.play_btn input').value,
-        titleEl = audio.querySelector('.title_wrap'),
-        artist = titleEl.querySelector('a').textContent.trim(),
-        title = titleEl.querySelector('.title').textContent.trim(),
-        fullTitle = artist + ' - ' + title,
-        wrapper = document.createElement('div');
+    const url = audio.querySelector('input').value,
+          titleEl = audio.querySelector('.title_wrap'),
+          artist = titleEl.querySelector('a').textContent.trim(),
+          title = titleEl.querySelector('.title').textContent.trim(),
+          fullTitle = `${ artist } - ${ title }`,
+          wrapper = document.createElement('div');
 
     wrapper.className = 'audio_save_wrap fl_r';
     wrapper.addEventListener('mouseover', showTip, false);
     wrapper.addEventListener('mouseout', hideTip, false);
 
-    var saver = document.createElement('a');
-    saver.setAttribute('download', fullTitle + '.mp3');
+    const saver = document.createElement('a');
+    saver.setAttribute('download', `${ fullTitle }.mp3`);
     saver.className = 'audio_save';
     saver.href = url;
     saver.addEventListener('click', save, false);
@@ -56,13 +58,24 @@ executeInBody(function (extensionId) {
     audio.querySelector('.actions').appendChild(wrapper);
   }
 
-  setInterval(function () {
-    if (location.pathname.indexOf('/audio') !== 0) {
-      return;
+  const observer = new MutationObserver(function (records) {
+    for (let record of records) {
+      for (let i = 0; i !== record.addedNodes.length; ++i) {
+        const node = record.addedNodes[i];
+        if (node.nodeType === Element.ELEMENT_NODE && node.classList.contains('audio')) {
+          addSaver(node);
+        } else if (typeof node.querySelectorAll === 'function') {
+          const nodes = [].concat.apply([], node.querySelectorAll('.audio'));
+          nodes.forEach(addSaver);
+        }
+      }
     }
+  });
 
-    var audios = [].concat.apply([], document.querySelectorAll('#audio.new .audio'));
+  observer.observe(document.body, { childList: true, subtree: true });
 
+  if (location.pathname.indexOf('/audio') === 0) {
+    const audios = [].concat.apply([], document.querySelectorAll('.audio'));
     audios.forEach(addSaver);
-  }, 300);
+  }
 });
