@@ -3,7 +3,6 @@ const
 	path = require('path'),
 
 	config = require('config'),
-	webpack = require('webpack'),
 	$C = require('collection.js').$C,
 	autoprefixer = require('autoprefixer');
 
