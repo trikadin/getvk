@@ -1,8 +1,10 @@
-chrome.runtime.onMessage.addListener(
-  (msg) => {
-    document.body.innerHTML = msg;
-    document.body.firstChild.click();
-    document.body.innerHTML = '';
-  }
+import { listen } from './utils';
 
-);
+listen('save', ({artist, title, url}) => {
+	const link = document.createElement('a');
+	link.href = url;
+	link.download = `${artist} - ${title}`;
+	document.body.appendChild(link);
+	link.click();
+	document.body.innerHTML = '';
+});

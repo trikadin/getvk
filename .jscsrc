@@ -2,15 +2,12 @@
   "esnext": true,
   "fileExtensions": [".js"],
   "excludeFiles": [
-    "newrelic.js",
-    "gulpfile.js",
-    "dist/**",
-    "config/*",
-    "node_modules/**"
+    "node_modules/**",
+    "dist/**"
   ],
 
-  "validateIndentation": 2,
-  "disallowMixedSpacesAndTabs": true,
+  "validateIndentation": "\t",
+  "disallowMixedSpacesAndTabs": "smart",
   "disallowTrailingWhitespace": true,
 
   "validateLineBreaks": "LF",
@@ -34,11 +31,23 @@
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpaceAfterObjectKeys": true,
   "requireSpaceBeforeObjectValues": true,
+  "disallowQuotedKeysInObjects": true,
   "disallowTrailingComma": true,
+  "requireSpaceAfterComma": true,
 
-  "requireSpaceAfterLineComment": true,
+  "requireDotNotation": true,
+  "requireObjectKeysOnNewLine": {
+    "allExcept": ["sameLine"]
+  },
+  "disallowIdenticalDestructuringNames": true,
+  "disallowNestedTernaries": { "maxLevel": 1 },
+  "requireParenthesesAroundArrowParam": true,
+  "requireParenthesesAroundIIFE": true,
+
   "requireLineBreakAfterVariableAssignment": true,
-  "requirePaddingNewLinesAfterBlocks": true,
+  "requirePaddingNewLinesAfterBlocks": {
+    "allExcept": ["inCallExpressions"]
+  },
   "requireSpaceBeforeBlockStatements": true,
   "disallowNewlineBeforeBlockStatements": true,
 
@@ -108,7 +117,8 @@
 
   "requireSpacesInAnonymousFunctionExpression": {
     "beforeOpeningRoundBrace": true,
-    "beforeOpeningCurlyBrace": true
+    "beforeOpeningCurlyBrace": true,
+    "allExcept": ["shorthand"]
   },
 
   "disallowSpacesInNamedFunctionExpression": {
@@ -135,5 +145,9 @@
     "string",
     "binary",
     "boolean"
-  ]
+  ],
+
+  "requireSpacesInGenerator": {
+    "afterStar": true
+  }
 }

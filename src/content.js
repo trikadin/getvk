@@ -1,82 +1,66 @@
-document.body.addEventListener(
-  chrome.runtime.id,
-  (e) => chrome.runtime.sendMessage(null, e.detail),
-  false
-);
+import './content.styl';
+import { injectFunction } from './utils';
 
-function executeInBody(func) {
-  const src = document.createElement('script');
-  src.text = `(${func.toString()})('${chrome.runtime.id}')`;
-  document.querySelector('body').appendChild(src);
-}
+injectFunction((utils) => {
+	function showTip() {
+		Audio.rowActive(this, 'Сохранить аудиозапись', [9, 5, 0]);
+	}
 
-executeInBody((extensionId) => {
-  'use strict';
+	function hideTip() {
+		Audio.rowInactive(this);
+	}
 
-  function showTip() {
-    Audio.rowActive(this, 'Сохранить аудиозапись', [9, 5, 0]);
-  }
+	function addSaver(audio) {
+		if (audio.querySelector('.audio_save')) {
+			return;
+		}
 
-  function hideTip() {
-    Audio.rowInactive(this);
-  }
+		const
+			url = audio.querySelector('input').value,
 
-  function sendMessage(message) {
-    const event = new CustomEvent(extensionId, {detail: message});
-    document.body.dispatchEvent(event);
-  }
+			titleEl = audio.querySelector('.title_wrap'),
+			artist = titleEl.querySelector('a').textContent.trim(),
+			title = titleEl.querySelector('.title').textContent.trim(),
 
-  function save(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    sendMessage(this.parentNode.innerHTML);
-  }
+			wrapper = document.createElement('div');
 
-  function addSaver(audio) {
-    if (audio.querySelector('.audio_save')) {
-      return;
-    }
+		wrapper.className = 'audio_save_wrap fl_r';
+		wrapper.addEventListener('mouseover', showTip, false);
+		wrapper.addEventListener('mouseout', hideTip, false);
 
-    const
-      url = audio.querySelector('input').value,
-      titleEl = audio.querySelector('.title_wrap'),
-      artist = titleEl.querySelector('a').textContent.trim(),
-      title = titleEl.querySelector('.title').textContent.trim(),
-      fullTitle = `${artist} - ${title}`,
-      wrapper = document.createElement('div');
+		const saver = document.createElement('div');
+		saver.className = 'audio_save';
+		saver.addEventListener(
+			'click',
+			(e) => {
+				e.stopPropagation();
+				utils.send('save', {artist, title, url});
+			},
+			false
+		);
 
-    wrapper.className = 'audio_save_wrap fl_r';
-    wrapper.addEventListener('mouseover', showTip, false);
-    wrapper.addEventListener('mouseout', hideTip, false);
+		wrapper.appendChild(saver);
+		audio.querySelector('.actions').appendChild(wrapper);
+	}
 
-    const saver = document.createElement('a');
-    saver.setAttribute('download', `${fullTitle}.mp3`);
-    saver.className = 'audio_save';
-    saver.href = url;
-    saver.addEventListener('click', save, false);
+	const observer = new MutationObserver((records) => {
+		for (let record of records) {
+			for (let i = 0; i !== record.addedNodes.length; ++i) {
+				const node = record.addedNodes[i];
+				if (node.nodeType === Element.ELEMENT_NODE && node.classList.contains('audio')) {
+					addSaver(node);
+				} else if (typeof node.querySelectorAll === 'function') {
+					const nodes = [].concat.apply([], node.querySelectorAll('.audio'));
+					nodes.forEach(addSaver);
+				}
+			}
+		}
+	});
 
-    wrapper.appendChild(saver);
-    audio.querySelector('.actions').appendChild(wrapper);
-  }
+	observer.observe(document.body, {childList: true, subtree: true});
 
-  const observer = new MutationObserver((records) => {
-    for (let record of records) {
-      for (let i = 0; i !== record.addedNodes.length; ++i) {
-        const node = record.addedNodes[i];
-        if (node.nodeType === Element.ELEMENT_NODE && node.classList.contains('audio')) {
-          addSaver(node);
-        } else if (typeof node.querySelectorAll === 'function') {
-          const nodes = [].concat.apply([], node.querySelectorAll('.audio'));
-          nodes.forEach(addSaver);
-        }
-      }
-    }
-  });
-
-  observer.observe(document.body, {childList: true, subtree: true});
-
-  if (location.pathname.indexOf('/audio') === 0) {
-    const audios = [].concat.apply([], document.querySelectorAll('.audio'));
-    audios.forEach(addSaver);
-  }
+	if (location.pathname.indexOf('/audio') === 0) {
+		const audios = [].concat.apply([], document.querySelectorAll('.audio'));
+		audios.forEach(addSaver);
+	}
 });

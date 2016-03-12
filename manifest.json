@@ -16,11 +16,7 @@
       "matches": [
         "*://*.vk.com/*"
       ],
-      "js": ["content.js"],
-      "css": ["static/css/single.css"]
+      "js": ["content.js"]
     }
-  ],
-  "web_accessible_resources": [
-    "static/img/*.png"
   ]
 }

@@ -1,0 +1,40 @@
+.audio_save_wrap
+	display none
+
+#audios_list
+	.actions
+		display none
+		position relative !important
+
+	.over .actions
+		display flex
+
+	.info
+		display flex
+		justify-content space-between
+
+		.title_wrap
+			width auto !important
+
+		.duration
+			flex-shrink 0
+
+	.audio_save_wrap
+		display block
+		width 13px
+		height 13px
+		margin 6px 8px 6px 0
+		padding 4px
+		border none
+		color #fff
+		cursor pointer
+		opacity .4
+
+	.audio_save
+		display block
+		width 13px
+		height 13px
+		background url("./save.png") no-repeat
+
+	.current .audio_save
+		background-position -13px 0
