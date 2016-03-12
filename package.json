@@ -1,6 +1,6 @@
 {
   "name": "getvk",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Расширение для браузера Google Chrome, чтобы скачивать музыку с сайта vk.com",
   "repository": {
     "type": "git",

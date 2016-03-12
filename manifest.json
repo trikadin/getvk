@@ -2,21 +2,25 @@
   "manifest_version": 2,
   "name": "getvk",
   "description": "",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "permissions": [
     "tabs",
     "<all_urls>"
   ],
   "background": {
     "persistent": false,
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
       "matches": [
         "*://*.vk.com/*"
       ],
-      "js": ["content.js"]
+      "js": [
+        "content.js"
+      ]
     }
   ]
 }
